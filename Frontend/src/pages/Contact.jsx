@@ -6,7 +6,8 @@ import { motion } from "framer-motion";
 
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
-import contactAnim from "../assets/Animation - 1751349091018.json";
+import contactAnim from "../assets/Animation - 1751603024220.json";
+import getintouch from "../assets/Animation - 1751601835143.json"
 
 const Contact = () => {
   const form = useRef();
@@ -78,7 +79,8 @@ const Contact = () => {
           </form>
 
           <div className="flex flex-col items-center text-center">
-            <Lottie animationData={contactAnim} loop autoplay className="w-60 h-60 mx-auto mb-6" />
+            <Lottie animationData={contactAnim } loop autoplay className="w-90 h-79 mx-auto mb-6" />
+          
             <motion.h2 className="text-3xl font-bold text-blue-800 mb-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

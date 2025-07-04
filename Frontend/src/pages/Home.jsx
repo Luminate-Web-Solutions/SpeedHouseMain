@@ -70,7 +70,7 @@ const Home = () => {
           {bgImages.map((item, index) => (
             <div
               key={index}
-              className="w-full flex-shrink-0 min-h-[60vh] md:min-h-screen bg-cover bg-center relative"
+              className="w-full flex-shrink-0 min-h-screen md:min-h-screen bg-cover bg-center relative"
               style={{ backgroundImage: `url(${item.image})` }}
             >
               <div className="absolute inset-0 flex items-center justify-center">
