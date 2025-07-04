@@ -5,12 +5,12 @@ import { ChevronLeft, ChevronRight, Trophy, Clock, ChartLine, Leaf, Sprout, BarC
 import Autoscroll from '../Components/Autoscroll';
 
 import bg1 from '../assets/bg.jpg';
-import bg2 from '../assets/H2.jpg';
-import bg3 from '../assets/H6.jpg';
-import bg4 from '../assets/H8.jpg';
-import bg5 from '../assets/H5.jpg';
+import bg2 from '../assets/H21.jpg';
+import bg3 from '../assets/H61.jpg';
+import bg4 from '../assets/H81.jpg';
+import bg5 from '../assets/H51.jpg';
 import bg6 from '../assets/H3.jpg';
-import bg7 from '../assets/H4.jpg';
+import bg7 from '../assets/H41.jpg';
 import bg8 from '../assets/H7.jpg';
 import bg9 from '../assets/H5.jpg';
 
@@ -153,7 +153,7 @@ const Home = () => {
           {/* Right Image */}
           <div className="w-full md:w-1/2">
             <img
-              src="./DesSection.jpg"
+              src="./DesSection1.jpg"
               alt="Legacy since 2004"
               className="rounded-2xl shadow-lg w-full h-full object-cover transform transition duration-300 hover:scale-105"
             />

@@ -3,9 +3,9 @@ import Header from '../Components/Header';
 import { Linkedin, Facebook, Instagram,Eye, Target, FileText , Users, BriefcaseBusiness, Image as ImageIcon } from 'lucide-react';
 import Footer from '../Components/Footer';
 import Autoscroll from '../Components/Autoscroll';
-import about from '../assets/blue.jpg';
+import about from '../assets/blue1.jpg';
 import { motion } from 'framer-motion';
-import statsImage from '../assets/OfficeMeeting.jpg'; // Replace with your actual image path
+import statsImage from '../assets/OfficeMeeting2.jpg'; // Replace with your actual image path
 // import { Linkedin, Facebook, Instagram } from 'lucide-react';
 // import { ImageIcon } from "lucide-react";
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
-import bg from '../assets/bg.avif';
+import bg from '../assets/bg1.jpg';
 import what from '../assets/offer.png';
 import { motion } from 'framer-motion';
 
@@ -12,7 +12,7 @@ import service2 from '../assets/Interior.jpg';
 import service3 from '../assets/3.jpg';
 import service4 from '../assets/2.jpg';
 import service5 from '../assets/bg.jpg';
-import service6 from '../assets/hero.jpg';
+import service6 from '../assets/H7.jpg';
 
 import architectureImg from '../assets/img1.jpg';
 import interiorImg from '../assets/Interior.jpg';
