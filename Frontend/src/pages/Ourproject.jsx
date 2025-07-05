@@ -436,8 +436,7 @@ const Ourproject = () => {
       ],
     },
   ];
-
-  return (
+return (
     <>
       <Header />
 
@@ -462,8 +461,11 @@ const Ourproject = () => {
 
       <div className="bg-[#F4F7FA] py-16 px-5">
         {sections.map((section, index) => (
-          <section className="mb-20 text-left md:pl-10 " key={index}>
-            <h3 className={`text-3xl font-semibold mb-6 ${section.color} pl-10 text-center`}>{section.title}</h3>
+          <section className="mb-20 text-left md:pl-10" key={index}>
+            <h3 className={`text-3xl font-semibold mb-6 ${section.color} pl-10 text-center`}>
+              {section.title}
+            </h3>
+
             <Swiper
               modules={[Autoplay, Navigation]}
               spaceBetween={30}
@@ -476,7 +478,6 @@ const Ourproject = () => {
                 768: { slidesPerView: 2 },
                 1024: { slidesPerView: 3 },
               }}
-              
             >
               {section.projects.map((proj, i) => (
                 <SwiperSlide key={i} className="flex justify-start">
@@ -490,53 +491,32 @@ const Ourproject = () => {
         ))}
       </div>
 
-      {selectedProject && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-xl p-6 max-w-2xl w-full relative">
-            <button
-              onClick={() => setSelectedProject(null)}
-              className="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-xl font-bold"
-            >
-              &times;
-            </button>
-            <img
-              src={selectedProject.image}
-              alt={selectedProject.title}
-              className="w-full h-64 object-cover rounded-lg mb-4"
-            />
-            <h2 className="text-2xl font-bold text-blue-800 mb-2">{selectedProject.title}</h2>
-            {selectedProject.client && <p className="text-gray-600 mb-1"><strong>Client:</strong> {selectedProject.client}</p>}
-            {selectedProject.location && <p className="text-gray-600 mb-1"><strong>Location:</strong> {selectedProject.location}</p>}
-            {selectedProject.builtUpArea && <p className="text-gray-600 mb-1"><strong>Built-up Area:</strong> {selectedProject.builtUpArea}</p>}
-            {selectedProject.configuration && <p className="text-gray-600 mb-1"><strong>Configuration:</strong> {selectedProject.configuration}</p>}
-            {selectedProject.projectType && <p className="text-gray-600 mb-3"><strong>Type:</strong> {selectedProject.projectType}</p>}
-            {selectedProject.desc && <p className="text-gray-700"><strong>Description:</strong> {selectedProject.desc}</p>}
-          </div>
-        </div>
-      )}
-
       {/* Modal Popup */}
       {selectedProject && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-xl p-6 max-w-2xl w-full relative">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full relative">
             <button
-              onClick={() => setSelectedProject(null)}
-              className="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-xl font-bold"
-            >
-              &times;
-            </button>
+  onClick={() => setSelectedProject(null)}
+  className="absolute top-3 right-4 bg-white text-black-600 border border-black-300 rounded-full p-2 shadow hover:bg-blue-600 hover:text-white hover:shadow-lg transition duration-300 ease-in-out"
+  aria-label="Close"
+>
+  <span className="text-xl font-bold leading-none">&times;</span>
+</button>
+           
+
             <img
               src={selectedProject.image}
               alt={selectedProject.title}
-              className="w-full h-64 object-cover rounded-lg mb-4"
+              className="w-full h-56 object-cover rounded-lg mb-4"
             />
-            <h2 className="text-2xl font-bold text-blue-800 mb-2">{selectedProject.title}</h2>
-            {selectedProject.client && <p className="text-gray-600 mb-1"><strong>Client:</strong> {selectedProject.client}</p>}
-            {selectedProject.location && <p className="text-gray-600 mb-1"><strong>Location:</strong> {selectedProject.location}</p>}
-            {selectedProject.builtUpArea && <p className="text-gray-600 mb-1"><strong>Built-up Area:</strong> {selectedProject.builtUpArea}</p>}
-            {selectedProject.configuration && <p className="text-gray-600 mb-1"><strong>Configuration:</strong> {selectedProject.configuration}</p>}
-            {selectedProject.projectType && <p className="text-gray-600 mb-3"><strong>Type:</strong> {selectedProject.projectType}</p>}
-            {selectedProject.desc && <p className="text-gray-700"><strong>Description:</strong> {selectedProject.desc}</p>}
+            <h2 className="text-xl font-bold text-blue-800 mb-2">{selectedProject.title}</h2>
+
+            {selectedProject.client && <p className="text-gray-600 text-sm"><strong>Client:</strong> {selectedProject.client}</p>}
+            {selectedProject.location && <p className="text-gray-600 text-sm"><strong>Location:</strong> {selectedProject.location}</p>}
+            {selectedProject.builtUpArea && <p className="text-gray-600 text-sm"><strong>Built-up Area:</strong> {selectedProject.builtUpArea}</p>}
+            {selectedProject.configuration && <p className="text-gray-600 text-sm"><strong>Configuration:</strong> {selectedProject.configuration}</p>}
+            {selectedProject.projectType && <p className="text-gray-600 text-sm"><strong>Type:</strong> {selectedProject.projectType}</p>}
+            {selectedProject.desc && <p className="text-gray-600 text-sm mt-2"><strong>Description:</strong> {selectedProject.desc}</p>}
           </div>
         </div>
       )}
