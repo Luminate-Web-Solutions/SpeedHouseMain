@@ -5,12 +5,12 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
-const PORT = 3035;
+const PORT = 3000;
 
 // ✅ CORS Setup — Allow your frontend origins
 app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+  origin: ['https://speed.luminatewebsol.com', 'http://localhost:5173'],
+  methods: ['POST', 'GET']
 }));
 
 app.use(bodyParser.json());
@@ -31,7 +31,7 @@ const transporter = nodemailer.createTransport({
 
 // ✅ POST: /api/contact — Send Admin Email + Auto-Reply
 app.post('/api/contact', async (req, res) => {
-  const { name, email, subject, message } = req.body;
+  const { name, email, phone, subject, message } = req.body;
 
   if (!name || !email || !message) {
     return res.status(400).json({ success: false, error: 'Required fields missing' });
@@ -39,7 +39,7 @@ app.post('/api/contact', async (req, res) => {
 
   const adminMailOptions = {
     from: process.env.SMTP_USER,
-    to: 'info@luminatewebsol.com',  // 📨 Your email to receive messages
+    to: 'saleh@luminatewebsol.com',  // 📨 Your email to receive messages
     replyTo: email,
     subject: `Contact Form: ${subject || 'No Subject'}`,
     html: `
