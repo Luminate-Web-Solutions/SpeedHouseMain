@@ -31,7 +31,7 @@ const transporter = nodemailer.createTransport({
 
 // ✅ POST: /api/contact — Send Admin Email + Auto-Reply
 app.post('/api/contact', async (req, res) => {
-  const { name, email, phone, subject, message } = req.body;
+  const { name, email, subject, message } = req.body;
 
   if (!name || !email || !message) {
     return res.status(400).json({ success: false, error: 'Required fields missing' });
@@ -39,7 +39,7 @@ app.post('/api/contact', async (req, res) => {
 
   const adminMailOptions = {
     from: process.env.SMTP_USER,
-    to: 'saleh@luminatewebsol.com',  // 📨 Your email to receive messages
+    to: 'info@luminatewebsol.com',  // 📨 Your email to receive messages
     replyTo: email,
     subject: `Contact Form: ${subject || 'No Subject'}`,
     html: `
