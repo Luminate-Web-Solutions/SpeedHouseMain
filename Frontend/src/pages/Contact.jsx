@@ -1,26 +1,32 @@
-import React, { useRef } from "react";  // Line 1
-import Lottie from "lottie-react";      // Line 2
-import { Mail, Phone, MapPin } from "lucide-react";  // Line 3
-import { motion } from "framer-motion"; // Line 4
+import React, { useRef } from "react";
+import Lottie from "lottie-react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
 
-import Footer from "../Components/Footer";  // Line 6
-import Header from "../Components/Header";  // Line 7
-import contactAnim from "../assets/Animation - 1751349091018.json";  // Line 8
+import Footer from "../Components/Footer";
+import Header from "../Components/Header";
+import contactAnim from "../assets/Animation - 1751349091018.json";
 
-const Contact = () => {  // Line 10
-  const form = useRef();  // Line 11
+const Contact = () => {
+  const form = useRef(null);
   console.log("Line 11: Form ref initialized", form);
 
-  const handleSubmit = async (e) => {  // Line 13
-    e.preventDefault();  // Line 14
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     console.log("Line 14: Form submission triggered");
 
-    const formData = {  // Line 16
-      name: form.current.name.value,    // Line 17
-      email: form.current.email.value,  // Line 18
-      subject: form.current.subject.value, // Line 19
-      message: form.current.message.value, // Line 20
-      phone: "",  // Line 21
+    if (!form.current) {
+      console.error("Line 17: Form reference not found.");
+      alert("Form is not ready. Please refresh and try again.");
+      return;
+    }
+
+    const formData = {
+      name: form.current.name.value,
+      email: form.current.email.value,
+      subject: form.current.subject.value,
+      message: form.current.message.value,
+      phone: "", // No phone field currently
     };
 
     console.log("Line 23: Form Data Collected:", formData);
@@ -28,38 +34,40 @@ const Contact = () => {  // Line 10
     try {
       console.log("Line 26: Sending POST request...");
 
-      const response = await fetch("https://speed.luminatewebsol.com/api/contact", {  // Line 28
-        method: "POST",  // Line 29
-        headers: { "Content-Type": "application/json" },  // Line 30
-        body: JSON.stringify(formData),  // Line 31
+      const response = await fetch("https://speed.luminatewebsol.com/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
       console.log("Line 33: Response received:", response);
 
-      const result = await response.json();  // Line 35
-      console.log("Line 36: Response JSON parsed:", result);
-
-      if (response.ok) {  // Line 38
-        console.log("Line 39: Form submission successful");
-        alert("Thank you for reaching out! We will get back to you soon.");  // Line 40
-        form.current.reset();  // Line 41
-        console.log("Line 42: Form reset completed");
-      } else {
-        console.error("Line 44: Server responded with error:", result);
-        alert("Something went wrong. Please try again later.");  // Line 46
+      if (!response.ok) {
+        console.error(`Line 36: Server responded with status: ${response.status}`);
+        alert("Something went wrong. Please try again later.");
+        return;
       }
+
+      const result = await response.json();
+      console.log("Line 41: Response JSON parsed:", result);
+
+      alert("Thank you for reaching out! We will get back to you soon.");
+      form.current.reset();
+      console.log("Line 45: Form reset completed");
+
     } catch (error) {
       console.error("Line 49: Network or submission error:", error);
-      alert("Failed to send message. Please check your internet connection or try again later.");  // Line 51
+      alert("Failed to send message. Please check your internet connection or try again later.");
     }
   };
 
   console.log("Line 55: Component rendering");
 
-  return (  // Line 57
+  return (
     <>
-      <Header />  {/* Line 59 */}
-      <section className="bg-gradient-to-br from-blue-100 via-white to-green-100 py-20 px-6 text-center"> {/* Line 60 */}
+      <Header />
+
+      <section className="bg-gradient-to-br from-blue-100 via-white to-green-100 py-20 px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,14 +83,16 @@ const Contact = () => {  // Line 10
         </motion.div>
       </section>
 
-      <section className="bg-[#F4F7FA] py-20 px-6 md:px-16">  {/* Line 77 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto"> {/* Line 78 */}
+      <section className="bg-[#F4F7FA] py-20 px-6 md:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
+          
+          {/* Contact Form */}
           <form
-            ref={form}  // Line 80
-            onSubmit={handleSubmit}  // Line 81
+            ref={form}
+            onSubmit={handleSubmit}
             className="w-full bg-white shadow-2xl p-10 rounded-2xl"
           >
-            <div className="flex flex-col">  {/* Line 84 */}
+            <div className="flex flex-col">
               <label htmlFor="name" className="font-semibold mb-1">Name</label>
               <input type="text" id="name" name="name" required className="border border-gray-300 p-3 mb-4 rounded" />
 
@@ -95,14 +105,18 @@ const Contact = () => {  // Line 10
               <label htmlFor="message" className="font-semibold mb-1">Message</label>
               <textarea id="message" name="message" required rows="5" className="border border-gray-300 p-3 mb-4 rounded" />
 
-              <button type="submit" className="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md">
+              <button
+                type="submit"
+                className="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md"
+              >
                 Submit
               </button>
             </div>
           </form>
 
-          <div className="flex flex-col items-center text-center">  {/* Line 103 */}
-            <Lottie animationData={contactAnim} loop autoplay className="w-60 h-60 mx-auto mb-6" />  {/* Line 104 */}
+          {/* Animation + Contact Info */}
+          <div className="flex flex-col items-center text-center">
+            <Lottie animationData={contactAnim} loop autoplay className="w-60 h-60 mx-auto mb-6" />
             <motion.h2
               className="text-3xl font-bold text-blue-800 mb-3"
               initial={{ opacity: 0, y: 20 }}
@@ -141,9 +155,9 @@ const Contact = () => {  // Line 10
         </div>
       </section>
 
-      <Footer />  {/* Line 145 */}
+      <Footer />
     </>
   );
 };
 
-export default Contact;  // Line 149
+export default Contact;
