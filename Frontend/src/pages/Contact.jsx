@@ -15,18 +15,12 @@ const Contact = () => {
     e.preventDefault();
     console.log("Line 14: Form submission triggered");
 
-    if (!form.current) {
-      console.error("Line 17: Form reference not found.");
-      alert("Form is not ready. Please refresh and try again.");
-      return;
-    }
-
     const formData = {
       name: form.current.name.value,
       email: form.current.email.value,
       subject: form.current.subject.value,
       message: form.current.message.value,
-      phone: "", // No phone field currently
+      phone: ""
     };
 
     console.log("Line 23: Form Data Collected:", formData);
@@ -37,24 +31,23 @@ const Contact = () => {
       const response = await fetch("https://speed.luminatewebsol.com/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData)
       });
 
       console.log("Line 33: Response received:", response);
 
-      if (!response.ok) {
-        console.error(`Line 36: Server responded with status: ${response.status}`);
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Line 36: Response JSON parsed:", result);
+
+        console.log("Line 39: Form submission successful");
+        alert("Thank you for reaching out! We will get back to you soon.");
+        form.current.reset();
+        console.log("Line 42: Form reset completed");
+      } else {
+        console.error("Line 44: Server responded with status:", response.status);
         alert("Something went wrong. Please try again later.");
-        return;
       }
-
-      const result = await response.json();
-      console.log("Line 41: Response JSON parsed:", result);
-
-      alert("Thank you for reaching out! We will get back to you soon.");
-      form.current.reset();
-      console.log("Line 45: Form reset completed");
-
     } catch (error) {
       console.error("Line 49: Network or submission error:", error);
       alert("Failed to send message. Please check your internet connection or try again later.");
@@ -85,8 +78,6 @@ const Contact = () => {
 
       <section className="bg-[#F4F7FA] py-20 px-6 md:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
-          
-          {/* Contact Form */}
           <form
             ref={form}
             onSubmit={handleSubmit}
@@ -105,18 +96,15 @@ const Contact = () => {
               <label htmlFor="message" className="font-semibold mb-1">Message</label>
               <textarea id="message" name="message" required rows="5" className="border border-gray-300 p-3 mb-4 rounded" />
 
-              <button
-                type="submit"
-                className="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md"
-              >
+              <button type="submit" className="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md">
                 Submit
               </button>
             </div>
           </form>
 
-          {/* Animation + Contact Info */}
           <div className="flex flex-col items-center text-center">
             <Lottie animationData={contactAnim} loop autoplay className="w-60 h-60 mx-auto mb-6" />
+
             <motion.h2
               className="text-3xl font-bold text-blue-800 mb-3"
               initial={{ opacity: 0, y: 20 }}
@@ -125,6 +113,7 @@ const Contact = () => {
             >
               Get in Touch
             </motion.h2>
+
             <p className="text-gray-600 text-lg mb-8">
               Whether it’s a question or a project — we’d love to hear from you.
             </p>
@@ -138,11 +127,13 @@ const Contact = () => {
                     Golf Park Building #205, Al Garhoud, Dubai, UAE
                   </p>
                 </div>
+
                 <div className="flex flex-col items-center">
                   <Phone className="text-blue-700 mb-2" size={32} />
                   <h4 className="text-lg font-semibold text-blue-900 mb-1">Call Us</h4>
                   <p className="text-gray-600 text-sm">+971 55 123 4567</p>
                 </div>
+
                 <div className="flex flex-col items-center">
                   <Mail className="text-blue-700 mb-2" size={32} />
                   <h4 className="text-lg font-semibold text-blue-900 mb-1">Email</h4>
