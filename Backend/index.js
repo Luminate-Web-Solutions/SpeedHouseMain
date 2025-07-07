@@ -7,21 +7,22 @@ require('dotenv').config();
 const app = express();
 const PORT = 3030;
 
-// ✅ CORS Setup — Allow Frontend Origins (Multiple Domains Supported)
+// ✅ CORS Setup — Allow your frontend origins
 app.use(cors({
-  origin: '*',
-  }));
+  origin: ['https://speed.luminatewebsol.com', 'http://localhost:5173'],
+  methods: ['POST', 'GET']
+}));
 
 app.use(bodyParser.json());
 
 // ✅ Nodemailer Transporter Setup
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,         
-  port: parseInt(process.env.SMTP_PORT), 
+  host: process.env.SMTP_HOST,         // e.g., smtp.gmail.com
+  port: parseInt(process.env.SMTP_PORT), // e.g., 587
   secure: false,
   auth: {
-    user: process.env.SMTP_USER,       
-    pass: process.env.SMTP_PASS        
+    user: process.env.SMTP_USER,       // your email
+    pass: process.env.SMTP_PASS        // your app password or real password
   },
   tls: {
     rejectUnauthorized: false
@@ -38,7 +39,7 @@ app.post('/api/contact', async (req, res) => {
 
   const adminMailOptions = {
     from: process.env.SMTP_USER,
-    to: 'saleh@luminatewebsol.com',
+    to: 'saleh@luminatewebsol.com',  // 📨 Your email to receive messages
     replyTo: email,
     subject: `Contact Form: ${subject || 'No Subject'}`,
     html: `
@@ -52,25 +53,30 @@ app.post('/api/contact', async (req, res) => {
   };
 
   const autoReplyOptions = {
-    from: `"Speed House Engineering" <${process.env.SMTP_USER}>`,
-    to: email,
-    subject: "Thank you for contacting Speed House Engineering",
-    html: `
-      <div style="font-family: Arial, sans-serif; color: #333;">
-        <h2 style="color:#1E40AF;">Thank you, ${name}!</h2>
-        <p>We’ve received your message and will get back to you shortly.</p>
-        <p style="background-color:#f0f0f0;padding:10px;border-left:4px solid #1E40AF;">
-          ${message}
-        </p>
-        <p style="margin-top:20px;">Warm regards,<br><strong>Speed House Engineering Team</strong></p>
-        <p style="font-size:12px;color:#888;">Golf Park Building #205, Al Garhoud, Dubai, UAE</p>
-      </div>
-    `
-  };
+  from: `"Speed House Engineering" <${process.env.SMTP_USER}>`,
+  to: email,
+  subject: "Thank you for contacting Speed House Engineering",
+  html: `
+    <div style="font-family: Arial, sans-serif; color: #333;">
+      <h2 style="color:#1E40AF;">Thank you, ${name}!</h2>
+      <p>We’ve received your message and will get back to you shortly.</p>
+      <p style="background-color:#f0f0f0;padding:10px;border-left:4px solid #1E40AF;">
+        ${message}
+      </p>
+      <p style="margin-top:20px;">Warm regards,<br><strong>Speed House Engineering Team</strong></p>
+      <p style="font-size:12px;color:#888;">Golf Park Building #205, Al Garhoud, Dubai, UAE</p>
+    </div>
+  `
+};
+
 
   try {
+    // Send admin email
     await transporter.sendMail(adminMailOptions);
+
+    // Send auto-reply to user
     await transporter.sendMail(autoReplyOptions);
+
     res.status(200).json({ success: true, message: 'Message sent successfully' });
   } catch (error) {
     console.error('Mail error:', error);
@@ -78,12 +84,12 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-// ✅ Optional Test Endpoint: Check if email sending works
+// ✅ GET: /test-email — Optional: Test Endpoint
 app.get('/test-email', async (req, res) => {
   try {
     await transporter.sendMail({
       from: process.env.SMTP_USER,
-      to: 'yourpersonalemail@example.com',
+      to: 'yourpersonalemail@example.com',  // Replace for test
       subject: 'Test Email',
       text: 'This is a test email from Speed House backend.'
     });
@@ -94,7 +100,7 @@ app.get('/test-email', async (req, res) => {
   }
 });
 
-// ✅ Start Server — Only One listen()
+// ✅ Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });

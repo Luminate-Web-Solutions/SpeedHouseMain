@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import axios from "axios";
 import Lottie from "lottie-react";
 import { Mail, Phone, MapPin } from "lucide-react";
@@ -10,38 +10,31 @@ import contactAnim from "../assets/Animation - 1751349091018.json";
 
 const Contact = () => {
   const form = useRef();
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     const formData = {
       name: form.current.name.value,
       email: form.current.email.value,
       subject: form.current.subject.value,
       message: form.current.message.value,
-      phone: "" 
+      phone: "" // Optional: Add phone if you have phone input
     };
 
-    const API_URL = 'https://speed.luminatewebsol.com/api/contact';  // ✅ Fixed single API URL
-
     try {
-      const response = await axios.post(API_URL, formData);
-      alert(response.data.message || "Message sent successfully!");
+      const response = await axios.post("https://speed.luminatewebsol.com/api/contact", formData);
+      alert(response.data.message);
       form.current.reset();
     } catch (error) {
       console.error("Error sending email:", error);
       alert("Failed to send message. Please try again.");
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
     <>
       <Header />
-
       <section className="bg-gradient-to-br from-blue-100 via-white to-green-100 py-20 px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -60,7 +53,6 @@ const Contact = () => {
 
       <section className="bg-[#F4F7FA] py-20 px-6 md:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
-
           <form
             ref={form}
             onSubmit={handleSubmit}
@@ -79,28 +71,21 @@ const Contact = () => {
               <label htmlFor="message" className="font-semibold mb-1">Message</label>
               <textarea id="message" name="message" required rows="5" className="border border-gray-300 p-3 mb-4 rounded" />
 
-              <button
-                type="submit"
-                disabled={loading}
-                className={`px-5 py-3 ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} text-white font-semibold rounded-lg shadow-md`}
-              >
-                {loading ? 'Sending...' : 'Submit'}
+              <button type="submit" className="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md">
+                Submit
               </button>
             </div>
           </form>
 
           <div className="flex flex-col items-center text-center">
             <Lottie animationData={contactAnim} loop autoplay className="w-60 h-60 mx-auto mb-6" />
-
-            <motion.h2
-              className="text-3xl font-bold text-blue-800 mb-3"
+            <motion.h2 className="text-3xl font-bold text-blue-800 mb-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               Get in Touch
             </motion.h2>
-
             <p className="text-gray-600 text-lg mb-8">
               Whether it’s a question or a project — we’d love to hear from you.
             </p>
@@ -124,8 +109,8 @@ const Contact = () => {
                 </div>
               </div>
             </div>
-
           </div>
+
         </div>
       </section>
 
