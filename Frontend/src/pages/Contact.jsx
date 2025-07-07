@@ -8,7 +8,7 @@ import Header from "../Components/Header";
 import contactAnim from "../assets/Animation - 1751349091018.json";
 
 const Contact = () => {
-  const form = useRef();
+  const form = useRef(null);
   console.log("Line 11: Form ref initialized", form);
 
   const handleSubmit = async (e) => {
@@ -16,11 +16,11 @@ const Contact = () => {
     console.log("Line 14: Form submission triggered");
 
     const formData = {
-      name: form.current.name.value,
-      email: form.current.email.value,
-      subject: form.current.subject.value,
-      message: form.current.message.value,
-      phone: "",
+      name: form.current?.name?.value || "",
+      email: form.current?.email?.value || "",
+      subject: form.current?.subject?.value || "",
+      message: form.current?.message?.value || "",
+      phone: "", // Optional
     };
 
     console.log("Line 23: Form Data Collected:", formData);
@@ -36,18 +36,25 @@ const Contact = () => {
 
       console.log("Line 33: Response received:", response);
 
-      if (response.status === 200) {
-        const result = await response.json();
-        console.log("Line 36: Response JSON parsed:", result);
+      if (response.status === 405) {
+        console.error("Line 36: Server responded with status: 405 (Method Not Allowed)");
+        alert("The contact form is not configured correctly on the server.");
+        return;
+      }
+
+      const result = await response.json();
+      console.log("Line 41: Response JSON parsed:", result);
+
+      if (response.ok) {
         alert("Thank you for reaching out! We will get back to you soon.");
         form.current.reset();
-        console.log("Line 42: Form reset completed");
+        console.log("Line 46: Form reset completed");
       } else {
-        console.error("Line 44: Server responded with status:", response.status);
+        console.error("Line 48: Server responded with error:", result);
         alert("Something went wrong. Please try again later.");
       }
     } catch (error) {
-      console.error("Line 49: Network or submission error:", error);
+      console.error("Line 52: Network or submission error:", error);
       alert("Failed to send message. Please check your internet connection or try again later.");
     }
   };
@@ -57,6 +64,7 @@ const Contact = () => {
   return (
     <>
       <Header />
+
       <section className="bg-gradient-to-br from-blue-100 via-white to-green-100 py-20 px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -75,7 +83,11 @@ const Contact = () => {
 
       <section className="bg-[#F4F7FA] py-20 px-6 md:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
-          <form ref={form} onSubmit={handleSubmit} className="w-full bg-white shadow-2xl p-10 rounded-2xl">
+          <form
+            ref={form}
+            onSubmit={handleSubmit}
+            className="w-full bg-white shadow-2xl p-10 rounded-2xl"
+          >
             <div className="flex flex-col">
               <label htmlFor="name" className="font-semibold mb-1">Name</label>
               <input type="text" id="name" name="name" required className="border border-gray-300 p-3 mb-4 rounded" />
@@ -97,6 +109,7 @@ const Contact = () => {
 
           <div className="flex flex-col items-center text-center">
             <Lottie animationData={contactAnim} loop autoplay className="w-60 h-60 mx-auto mb-6" />
+
             <motion.h2
               className="text-3xl font-bold text-blue-800 mb-3"
               initial={{ opacity: 0, y: 20 }}
