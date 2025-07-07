@@ -8,7 +8,7 @@ import Header from "../Components/Header";
 import contactAnim from "../assets/Animation - 1751349091018.json";
 
 const Contact = () => {
-  const form = useRef(null);
+  const form = useRef();
   console.log("Line 11: Form ref initialized", form);
 
   const handleSubmit = async (e) => {
@@ -20,7 +20,7 @@ const Contact = () => {
       email: form.current.email.value,
       subject: form.current.subject.value,
       message: form.current.message.value,
-      phone: ""
+      phone: "",
     };
 
     console.log("Line 23: Form Data Collected:", formData);
@@ -31,16 +31,14 @@ const Contact = () => {
       const response = await fetch("https://speed.luminatewebsol.com/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       console.log("Line 33: Response received:", response);
 
-      if (response.ok) {
+      if (response.status === 200) {
         const result = await response.json();
         console.log("Line 36: Response JSON parsed:", result);
-
-        console.log("Line 39: Form submission successful");
         alert("Thank you for reaching out! We will get back to you soon.");
         form.current.reset();
         console.log("Line 42: Form reset completed");
@@ -59,7 +57,6 @@ const Contact = () => {
   return (
     <>
       <Header />
-
       <section className="bg-gradient-to-br from-blue-100 via-white to-green-100 py-20 px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -78,11 +75,7 @@ const Contact = () => {
 
       <section className="bg-[#F4F7FA] py-20 px-6 md:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
-          <form
-            ref={form}
-            onSubmit={handleSubmit}
-            className="w-full bg-white shadow-2xl p-10 rounded-2xl"
-          >
+          <form ref={form} onSubmit={handleSubmit} className="w-full bg-white shadow-2xl p-10 rounded-2xl">
             <div className="flex flex-col">
               <label htmlFor="name" className="font-semibold mb-1">Name</label>
               <input type="text" id="name" name="name" required className="border border-gray-300 p-3 mb-4 rounded" />
@@ -104,7 +97,6 @@ const Contact = () => {
 
           <div className="flex flex-col items-center text-center">
             <Lottie animationData={contactAnim} loop autoplay className="w-60 h-60 mx-auto mb-6" />
-
             <motion.h2
               className="text-3xl font-bold text-blue-800 mb-3"
               initial={{ opacity: 0, y: 20 }}
@@ -113,7 +105,6 @@ const Contact = () => {
             >
               Get in Touch
             </motion.h2>
-
             <p className="text-gray-600 text-lg mb-8">
               Whether it’s a question or a project — we’d love to hear from you.
             </p>
@@ -127,13 +118,11 @@ const Contact = () => {
                     Golf Park Building #205, Al Garhoud, Dubai, UAE
                   </p>
                 </div>
-
                 <div className="flex flex-col items-center">
                   <Phone className="text-blue-700 mb-2" size={32} />
                   <h4 className="text-lg font-semibold text-blue-900 mb-1">Call Us</h4>
                   <p className="text-gray-600 text-sm">+971 55 123 4567</p>
                 </div>
-
                 <div className="flex flex-col items-center">
                   <Mail className="text-blue-700 mb-2" size={32} />
                   <h4 className="text-lg font-semibold text-blue-900 mb-1">Email</h4>
@@ -142,7 +131,6 @@ const Contact = () => {
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
