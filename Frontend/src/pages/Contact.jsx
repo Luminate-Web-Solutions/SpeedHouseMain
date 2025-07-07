@@ -22,16 +22,30 @@ const Contact = () => {
       phone: "" // Optional: Add phone if you have phone input
     };
 
-    try {
-      const response = await axios.post("https://speed.luminatewebsol.com/api/contact", formData);
-      alert(response.data.message);
-      form.current.reset();
+   try {
+      const response = await fetch("https://api.speed.luminatewebsol.com/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      console.log(result); 
+
+      if (response.ok) {
+        alert("Thank you for reaching out! We will get back to you soon.");
+        reset();
+      } else {
+        console.error(result);
+        alert("Something went wrong. Please try again later.");
+      }
     } catch (error) {
-      console.error("Error sending email:", error);
-      alert("Failed to send message. Please try again.");
+      console.error("Submission error:", error);
+      alert(
+        "Failed to send message. Please check your internet connection or try again later."
+      );
     }
   };
-
   return (
     <>
       <Header />
