@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router';  // ✅ Use react-router-dom not react-router
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router';  
 import App from './App.jsx';
 import Aboutus from './pages/Aboutus.jsx';
 import Ourprojects from './pages/Ourproject.jsx';
