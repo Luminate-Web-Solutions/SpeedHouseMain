@@ -28,7 +28,7 @@ const Contact = () => {  // Line 10
     try {
       console.log("Line 26: Sending POST request...");
 
-      const response = await fetch("https://api.speed.luminatewebsol.com/api/contact", {  // Line 28
+      const response = await fetch("https://speed.luminatewebsol.com/api/contact", {  // Line 28
         method: "POST",  // Line 29
         headers: { "Content-Type": "application/json" },  // Line 30
         body: JSON.stringify(formData),  // Line 31
