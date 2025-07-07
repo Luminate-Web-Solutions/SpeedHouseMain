@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
-const PORT = 3030;
+const PORT = 3000;
 
 // ✅ CORS Setup — Allow your frontend origins
 app.use(cors({
