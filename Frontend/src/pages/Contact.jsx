@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
-import contactAnim from "../assets/Animation - 1751603024220.json";
+import contactAnim from "../assets/Animation - 1751349091018.json";
 
 const Contact = () => {
   const form = useRef();
@@ -21,16 +21,20 @@ const Contact = () => {
       email: form.current.email.value,
       subject: form.current.subject.value,
       message: form.current.message.value,
-      phone: "" // Optional: Add phone if you have phone input
+      phone: "" // Optional: Add phone field if you have it
     };
 
+    const API_URL = import.meta.env.MODE === 'development'
+      ? 'http://localhost:3030/api/contact'
+      : 'https://speed.luminatewebsol.com/api/contact';
+
     try {
-      const response = await axios.post('https://speed.luminatewebsol.com/api/contact', formData);
-      alert(response.data.message);
+      const response = await axios.post(API_URL, formData);
+      alert(response.data.message || "Message sent successfully!");
       form.current.reset();
     } catch (error) {
       console.error("Error sending email:", error);
-      alert("Failed to send message. Please try again.");
+      alert("Failed to send message. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -78,11 +82,9 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className={`px-5 py-3 ${
-                  loading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
-                } text-white font-semibold rounded-lg shadow-md transition duration-200`}
+                className={`px-5 py-3 ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} text-white font-semibold rounded-lg shadow-md`}
               >
-                {loading ? "Please wait..." : "Submit"}
+                {loading ? 'Sending...' : 'Submit'}
               </button>
             </div>
           </form>
@@ -106,9 +108,7 @@ const Contact = () => {
                 <div className="flex flex-col items-center">
                   <MapPin className="text-blue-700 mb-2" size={32} />
                   <h4 className="text-lg font-semibold text-blue-900 mb-1">Address</h4>
-                  <p className="text-gray-600 text-sm text-center">
-                    Golf Park Building #205, Al Garhoud, Dubai, UAE
-                  </p>
+                  <p className="text-gray-600 text-sm text-center">Golf Park Building #205, Al Garhoud, Dubai, UAE</p>
                 </div>
                 <div className="flex flex-col items-center">
                   <Phone className="text-blue-700 mb-2" size={32} />
@@ -123,6 +123,7 @@ const Contact = () => {
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
