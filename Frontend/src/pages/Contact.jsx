@@ -1,55 +1,65 @@
-import React, { useRef } from "react";
-import axios from "axios";
-import Lottie from "lottie-react";
-import { Mail, Phone, MapPin } from "lucide-react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";  // Line 1
+import Lottie from "lottie-react";      // Line 2
+import { Mail, Phone, MapPin } from "lucide-react";  // Line 3
+import { motion } from "framer-motion"; // Line 4
 
-import Footer from "../Components/Footer";
-import Header from "../Components/Header";
-import contactAnim from "../assets/Animation - 1751349091018.json";
+import Footer from "../Components/Footer";  // Line 6
+import Header from "../Components/Header";  // Line 7
+import contactAnim from "../assets/Animation - 1751349091018.json";  // Line 8
 
-const Contact = () => {
-  const form = useRef();
+const Contact = () => {  // Line 10
+  const form = useRef();  // Line 11
+  console.log("Line 11: Form ref initialized", form);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {  // Line 13
+    e.preventDefault();  // Line 14
+    console.log("Line 14: Form submission triggered");
 
-    const formData = {
-      name: form.current.name.value,
-      email: form.current.email.value,
-      subject: form.current.subject.value,
-      message: form.current.message.value,
-      phone: "" // Optional: Add phone if you have phone input
+    const formData = {  // Line 16
+      name: form.current.name.value,    // Line 17
+      email: form.current.email.value,  // Line 18
+      subject: form.current.subject.value, // Line 19
+      message: form.current.message.value, // Line 20
+      phone: "",  // Line 21
     };
 
-   try {
-      const response = await fetch("https://api.speed.luminatewebsol.com/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+    console.log("Line 23: Form Data Collected:", formData);
+
+    try {
+      console.log("Line 26: Sending POST request...");
+
+      const response = await fetch("https://api.speed.luminatewebsol.com/api/contact", {  // Line 28
+        method: "POST",  // Line 29
+        headers: { "Content-Type": "application/json" },  // Line 30
+        body: JSON.stringify(formData),  // Line 31
       });
 
-      const result = await response.json();
-      console.log(result); 
+      console.log("Line 33: Response received:", response);
 
-      if (response.ok) {
-        alert("Thank you for reaching out! We will get back to you soon.");
-        reset();
+      const result = await response.json();  // Line 35
+      console.log("Line 36: Response JSON parsed:", result);
+
+      if (response.ok) {  // Line 38
+        console.log("Line 39: Form submission successful");
+        alert("Thank you for reaching out! We will get back to you soon.");  // Line 40
+        form.current.reset();  // Line 41
+        console.log("Line 42: Form reset completed");
       } else {
-        console.error(result);
-        alert("Something went wrong. Please try again later.");
+        console.error("Line 44: Server responded with error:", result);
+        alert("Something went wrong. Please try again later.");  // Line 46
       }
     } catch (error) {
-      console.error("Submission error:", error);
-      alert(
-        "Failed to send message. Please check your internet connection or try again later."
-      );
+      console.error("Line 49: Network or submission error:", error);
+      alert("Failed to send message. Please check your internet connection or try again later.");  // Line 51
     }
   };
-  return (
+
+  console.log("Line 55: Component rendering");
+
+  return (  // Line 57
     <>
-      <Header />
-      <section className="bg-gradient-to-br from-blue-100 via-white to-green-100 py-20 px-6 text-center">
+      <Header />  {/* Line 59 */}
+      <section className="bg-gradient-to-br from-blue-100 via-white to-green-100 py-20 px-6 text-center"> {/* Line 60 */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -65,14 +75,14 @@ const Contact = () => {
         </motion.div>
       </section>
 
-      <section className="bg-[#F4F7FA] py-20 px-6 md:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
+      <section className="bg-[#F4F7FA] py-20 px-6 md:px-16">  {/* Line 77 */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto"> {/* Line 78 */}
           <form
-            ref={form}
-            onSubmit={handleSubmit}
+            ref={form}  // Line 80
+            onSubmit={handleSubmit}  // Line 81
             className="w-full bg-white shadow-2xl p-10 rounded-2xl"
           >
-            <div className="flex flex-col">
+            <div className="flex flex-col">  {/* Line 84 */}
               <label htmlFor="name" className="font-semibold mb-1">Name</label>
               <input type="text" id="name" name="name" required className="border border-gray-300 p-3 mb-4 rounded" />
 
@@ -91,9 +101,10 @@ const Contact = () => {
             </div>
           </form>
 
-          <div className="flex flex-col items-center text-center">
-            <Lottie animationData={contactAnim} loop autoplay className="w-60 h-60 mx-auto mb-6" />
-            <motion.h2 className="text-3xl font-bold text-blue-800 mb-3"
+          <div className="flex flex-col items-center text-center">  {/* Line 103 */}
+            <Lottie animationData={contactAnim} loop autoplay className="w-60 h-60 mx-auto mb-6" />  {/* Line 104 */}
+            <motion.h2
+              className="text-3xl font-bold text-blue-800 mb-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -109,7 +120,9 @@ const Contact = () => {
                 <div className="flex flex-col items-center">
                   <MapPin className="text-blue-700 mb-2" size={32} />
                   <h4 className="text-lg font-semibold text-blue-900 mb-1">Address</h4>
-                  <p className="text-gray-600 text-sm text-center">Golf Park Building #205, Al Garhoud, Dubai, UAE</p>
+                  <p className="text-gray-600 text-sm text-center">
+                    Golf Park Building #205, Al Garhoud, Dubai, UAE
+                  </p>
                 </div>
                 <div className="flex flex-col items-center">
                   <Phone className="text-blue-700 mb-2" size={32} />
@@ -128,9 +141,9 @@ const Contact = () => {
         </div>
       </section>
 
-      <Footer />
+      <Footer />  {/* Line 145 */}
     </>
   );
 };
 
-export default Contact;
+export default Contact;  // Line 149
