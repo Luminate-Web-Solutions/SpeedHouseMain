@@ -11,79 +11,34 @@ import contactAnim from "../assets/Animation - 1751603024220.json";
 const Contact = () => {
   const form = useRef();
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("");  // 'success', 'error', or ''
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setStatus("");
 
     const formData = {
       name: form.current.name.value,
       email: form.current.email.value,
       subject: form.current.subject.value,
       message: form.current.message.value,
-      phone: ""
+      phone: "" // Optional: Add phone if you have phone input
     };
 
     try {
-      const response = await axios.post("https://speed.luminatewebsol.com/api/contact", formData);
-      setStatus("success");
+      const response = await axios.post("http://localhost:3000/api/contact", formData);
+      alert(response.data.message);
       form.current.reset();
     } catch (error) {
       console.error("Error sending email:", error);
-      setStatus("error");
+      alert("Failed to send message. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  const closeOverlay = () => setStatus("");
-
   return (
     <>
       <Header />
-
-      {/* ✅ Full Screen Overlays */}
-      {(loading || status) && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/10 bg-opacity-60 z-50">
-          <div className="bg-white p-8 rounded-xl shadow-lg text-center max-w-sm">
-            {loading && (
-              <>
-                <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600 mb-4 mx-auto"></div>
-                <p className="text-blue-800 font-semibold text-lg">Please wait, we’re sending your message...</p>
-              </>
-            )}
-
-            {status === "success" && (
-              <>
-                <p className="text-green-600 font-bold text-lg mb-3"> Thank you!</p>
-                <p className="text-gray-700 mb-4">Your message has been sent successfully.</p>
-                <button
-                  onClick={closeOverlay}
-                  className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
-                  Close
-                </button>
-              </>
-            )}
-
-            {status === "error" && (
-              <>
-                <p className="text-red-600 font-bold text-lg mb-3"> Oops!</p>
-                <p className="text-gray-700 mb-4">Failed to send your message. Please try again.</p>
-                <button
-                  onClick={closeOverlay}
-                  className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
-                  Close
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-
       <section className="bg-gradient-to-br from-blue-100 via-white to-green-100 py-20 px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -124,18 +79,18 @@ const Contact = () => {
                 type="submit"
                 disabled={loading}
                 className={`px-5 py-3 ${
-                  loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-                } text-white font-semibold rounded-lg shadow-md`}
+                  loading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
+                } text-white font-semibold rounded-lg shadow-md transition duration-200`}
               >
-                {loading ? 'Sending...' : 'Submit'}
+                {loading ? "Please wait..." : "Submit"}
               </button>
             </div>
           </form>
 
           <div className="flex flex-col items-center text-center">
-            <Lottie animationData={contactAnim} loop autoplay className="w-90 h-79 mx-auto mb-6" />
-
-            <motion.h2 className="text-3xl font-bold text-blue-800 mb-3"
+            <Lottie animationData={contactAnim} loop autoplay className="w-60 h-60 mx-auto mb-6" />
+            <motion.h2
+              className="text-3xl font-bold text-blue-800 mb-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -151,7 +106,9 @@ const Contact = () => {
                 <div className="flex flex-col items-center">
                   <MapPin className="text-blue-700 mb-2" size={32} />
                   <h4 className="text-lg font-semibold text-blue-900 mb-1">Address</h4>
-                  <p className="text-gray-600 text-sm text-center">Golf Park Building #205, Al Garhoud, Dubai, UAE</p>
+                  <p className="text-gray-600 text-sm text-center">
+                    Golf Park Building #205, Al Garhoud, Dubai, UAE
+                  </p>
                 </div>
                 <div className="flex flex-col items-center">
                   <Phone className="text-blue-700 mb-2" size={32} />
@@ -166,7 +123,6 @@ const Contact = () => {
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
@@ -176,4 +132,3 @@ const Contact = () => {
 };
 
 export default Contact;
-
