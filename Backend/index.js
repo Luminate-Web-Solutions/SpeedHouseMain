@@ -85,20 +85,20 @@ app.post('/api/contact', async (req, res) => {
 });
 
 // ✅ GET: /test-email — Optional: Test Endpoint
-app.get('/test-email', async (req, res) => {
-  try {
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to: 'yourpersonalemail@example.com',  // Replace for test
-      subject: 'Test Email',
-      text: 'This is a test email from Speed House backend.'
-    });
-    res.send('Test email sent successfully!');
-  } catch (error) {
-    console.error('Test email error:', error);
-    res.status(500).send('Failed to send test email.');
-  }
-});
+// app.get('/test-email', async (req, res) => {
+//   try {
+//     await transporter.sendMail({
+//       from: process.env.SMTP_USER,
+//       to: 'yourpersonalemail@example.com',  // Replace for test
+//       subject: 'Test Email',
+//       text: 'This is a test email from Speed House backend.'
+//     });
+//     res.send('Test email sent successfully!');
+//   } catch (error) {
+//     console.error('Test email error:', error);
+//     res.status(500).send('Failed to send test email.');
+//   }
+// });
 
 // ✅ Start Server
 app.listen(PORT, () => {
