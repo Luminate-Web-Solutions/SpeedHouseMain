@@ -27,7 +27,7 @@ const Contact = () => {
     };
 
     try {
-      const response = await axios.post('https://speed.luminatewebsol.com:3035/api/contact', formData);
+      const response = await axios.post('https://speed.luminatewebsol.com/api/contact', formData);
       setStatus("success");
       form.current.reset();
     } catch (error) {
