@@ -9,8 +9,8 @@ const PORT = 3000;
 
 // ✅ CORS Setup — Allow your frontend origins
 app.use(cors({
-  origin: ['https://speed.luminatewebsol.com', 'http://localhost:5173'],
-  methods: ['POST', 'GET']
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
 app.use(bodyParser.json());
