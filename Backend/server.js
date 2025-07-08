@@ -11,14 +11,13 @@ const Contact = require('./modules/contact');
 const app = express();
 const PORT = process.env.PORT || 3012;
 
-// ✅ Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Correct Allowed Origins (React + Production)
+
 const allowedOrigins = [
-  "http://localhost:5173",              // React dev server
-  "https://speed.luminatewebsol.com"    // Live site
+  "http://localhost:5173",              
+  "https://speed.luminatewebsol.com"    
 ];
 
 // ✅ CORS Setup
@@ -34,9 +33,9 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-console.log('✅ Server middleware configured.');
+console.log(' Server middleware configured.');
 
-// ✅ Nodemailer setup
+// Nodemailer
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT),
@@ -50,14 +49,14 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// ✅ Database connection
+//  Database connection
 sequelize.authenticate()
-  .then(() => console.log('✅ Database connected.'))
-  .catch(err => console.error('❌ DB connection failed:', err));
+  .then(() => console.log(' Database connected.'))
+  .catch(err => console.error(' DB connection failed:', err));
 
 sequelize.sync({ alter: true })
   .then(() => console.log('✅ All models synced.'))
-  .catch(err => console.error('❌ Sync error:', err));
+  .catch(err => console.error(' Sync error:', err));
 
 // ✅ Contact API Endpoint
 app.post('/api/contact', async (req, res) => {
