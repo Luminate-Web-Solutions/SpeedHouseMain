@@ -8,20 +8,15 @@ import Contact from './pages/Contact.jsx';
 import Service from './pages/Service.jsx';
 import './index.css';
 
-// Scroll restoration component
-const ScrollRestorationWrapper = ({ children }) => {
+const ScrollToTop = ({ children }) => {
   const location = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
-
+  useEffect(() => { window.scrollTo(0, 0); }, [location.pathname]);
   return children;
 };
 
 const Root = () => (
   <BrowserRouter>
-    <ScrollRestorationWrapper>
+    <ScrollToTop>
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/aboutus" element={<Aboutus />} />
@@ -29,12 +24,8 @@ const Root = () => (
         <Route path="/ourproject" element={<Ourprojects />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
-    </ScrollRestorationWrapper>
+    </ScrollToTop>
   </BrowserRouter>
 );
 
-createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Root />
-  </React.StrictMode>
-);
+createRoot(document.getElementById('root')).render(<Root />);

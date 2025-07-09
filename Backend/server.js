@@ -1,41 +1,24 @@
 const express = require('express');
 const cors = require('cors');
-const sequelize = require('./config/db');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-const helmet = require('helmet');
 
-const Contact = require('./modules/contact');
+const sequelize = require('./config/db');
+const Contact = require('./modules/Contact');
 
 const app = express();
 const PORT = process.env.PORT || 3012;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-
-const allowedOrigins = [
-  "http://localhost:5173",              
-  "https://speed.luminatewebsol.com"    
-];
-
-// ✅ CORS Setup
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS Not Allowed'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: ['https://speed.luminatewebsol.com', ],
+  methods: ['POST', 'GET']
 }));
 
-console.log(' Server middleware configured.');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Nodemailer
+// Nodemailer transporter
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT),
@@ -44,68 +27,98 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
   },
-  tls: {
-    rejectUnauthorized: false
-  }
+  tls: { rejectUnauthorized: false }
 });
 
-//  Database connection
-sequelize.authenticate()
-  .then(() => console.log(' Database connected.'))
-  .catch(err => console.error(' DB connection failed:', err));
-
-sequelize.sync({ alter: true })
-  .then(() => console.log('✅ All models synced.'))
-  .catch(err => console.error(' Sync error:', err));
-
-// ✅ Contact API Endpoint
+// Contact form handler
 app.post('/api/contact', async (req, res) => {
-  const { name, email, telephone, subject, message } = req.body;
+  const { name, email, phone, subject, message } = req.body;
 
   if (!name || !email || !message) {
     return res.status(400).json({ success: false, error: 'Required fields missing' });
   }
 
-  const mailOptions = {
+  const adminMailOptions = {
     from: process.env.SMTP_USER,
-    to: 'info@speed.luminatewebsol.com',
+    to: 'saleh@luminatewebsol.com',
     replyTo: email,
     subject: `Contact Form: ${subject || 'No Subject'}`,
     html: `
-      <h3>New Contact Form Submission</h3>
+      <h2>New Contact Form Submission</h2>
       <p><strong>Name:</strong> ${name}</p>
       <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${telephone || 'N/A'}</p>
+      <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
       <p><strong>Subject:</strong> ${subject || 'No Subject'}</p>
       <p><strong>Message:</strong><br>${message}</p>
     `
   };
 
-  try {
-    // ✅ Save to DB
-    await Contact.create({ name, email, telephone, subject, message });
+  const autoReplyOptions = {
+    from: `"Speed House Engineering" <${process.env.SMTP_USER}>`,
+    to: email,
+    subject: "Thank you for contacting Speed House Engineering",
+    html: `
+      <div style="font-family: Arial, sans-serif; color: #333;">
+        <h2 style="color:#1E40AF;">Thank you, ${name}!</h2>
+        <p>We’ve received your message and will get back to you shortly.</p>
+        <p style="background-color:#f0f0f0;padding:10px;border-left:4px solid #1E40AF;">
+          ${message}
+        </p>
+        <p style="margin-top:20px;">Warm regards,<br><strong>Speed House Engineering Team</strong></p>
+        <p style="font-size:12px;color:#888;">Golf Park Building #205, Al Garhoud, Dubai, UAE</p>
+      </div>
+    `
+  };
 
-    // ✅ Send Email
-    await transporter.sendMail(mailOptions);
+  try {
+    // ✅ Save to database
+    await Contact.create({
+      name,
+      email,
+      telephone: phone,
+      subject,
+      message
+    });
+
+    // ✅ Send emails
+    await transporter.sendMail(adminMailOptions);
+    await transporter.sendMail(autoReplyOptions);
 
     res.status(200).json({ success: true, message: 'Message sent successfully' });
   } catch (error) {
-    console.error('❌ Server error:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to send message',
-      detail: error.message
-    });
+    console.error('❌ Error:', error);
+    res.status(500).json({ success: false, error: 'Failed to send message', detail: error.message });
   }
 });
 
-// ✅ Helmet Security
-app.use(helmet({
-  contentSecurityPolicy: false,
-  crossOriginResourcePolicy: { policy: "cross-origin" },
-}));
-
-// ✅ Start Server
-app.listen(PORT, () => {
-  console.log(`🚀 Speed House server running at http://localhost:${PORT}`);
+// Optional test route
+app.get('/test-email', async (req, res) => {
+  try {
+    await transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: 'yourpersonalemail@example.com',
+      subject: 'Test Email',
+      text: 'This is a test email.'
+    });
+    res.send('✅ Test email sent!');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('❌ Failed to send test email.');
+  }
 });
+
+// Start server after DB connection
+sequelize.authenticate()
+  .then(() => {
+    console.log('✅ Database connected');
+    return sequelize.sync();
+  })
+  .then(() => {
+    console.log('✅ Models synced');
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running at http://localhost:${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('❌ Database connection failed:', err);
+  });

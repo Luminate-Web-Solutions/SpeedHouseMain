@@ -23,7 +23,9 @@ const Contact = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:3000/api/contact", formData);
+      const response = await axios.post('api/contact', formData)
+
+
       alert(response.data.message);
       form.current.reset();
     } catch (error) {
