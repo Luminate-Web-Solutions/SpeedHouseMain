@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-const path = require('path');
 require('dotenv').config();
 
 const sequelize = require('./config/db');
@@ -11,19 +10,15 @@ const Contact = require('./modules/contact');
 const app = express();
 const PORT = process.env.PORT || 3012;
 
-// ✅ Serve React Static Files
-app.use(express.static(path.join(__dirname, 'dist')));
-
-// ✅ CORS (optional in production if same domain)
 app.use(cors({
-  origin: ['https://speed.luminatewebsol.com', 'http://localhost:5173'],
+  origin: ['https://speed.luminatewebsol.com', ],
   methods: ['POST', 'GET']
 }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// ✅ Nodemailer Setup
+// Nodemailer transporter
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT),
@@ -35,7 +30,7 @@ const transporter = nodemailer.createTransport({
   tls: { rejectUnauthorized: false }
 });
 
-// ✅ Contact Form API
+// Contact form handler
 app.post('/api/contact', async (req, res) => {
   const { name, email, phone, subject, message } = req.body;
 
@@ -76,9 +71,19 @@ app.post('/api/contact', async (req, res) => {
   };
 
   try {
-    await Contact.create({ name, email, telephone: phone, subject, message });
+    // ✅ Save to database
+    await Contact.create({
+      name,
+      email,
+      telephone: phone,
+      subject,
+      message
+    });
+
+    // ✅ Send emails
     await transporter.sendMail(adminMailOptions);
     await transporter.sendMail(autoReplyOptions);
+
     res.status(200).json({ success: true, message: 'Message sent successfully' });
   } catch (error) {
     console.error('❌ Error:', error);
@@ -86,12 +91,23 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-// ✅ Fallback to React App
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+// Optional test route
+app.get('/test-email', async (req, res) => {
+  try {
+    await transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: 'yourpersonalemail@example.com',
+      subject: 'Test Email',
+      text: 'This is a test email.'
+    });
+    res.send('✅ Test email sent!');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('❌ Failed to send test email.');
+  }
 });
 
-// ✅ Start Server After DB Connection
+// Start server after DB connection
 sequelize.authenticate()
   .then(() => {
     console.log('✅ Database connected');
