@@ -11,8 +11,9 @@ const app = express();
 const PORT = 3035;
 
 app.use(cors({
-  origin: '*',
-  methods: ['POST', 'GET']
+  origin: ['http://localhost:5173', 'https://speed.luminatewebsol.com'],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use(bodyParser.json());
