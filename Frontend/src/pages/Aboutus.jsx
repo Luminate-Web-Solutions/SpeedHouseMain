@@ -3,9 +3,9 @@ import Header from '../Components/Header';
 import { Linkedin, Facebook, Instagram,Eye, Target, FileText , Users, BriefcaseBusiness, Image as ImageIcon } from 'lucide-react';
 import Footer from '../Components/Footer';
 import Autoscroll from '../Components/Autoscroll';
-import about from '../assets/blue1.jpg';
+import about from '../assets/blue.jpg';
 import { motion } from 'framer-motion';
-import statsImage from '../assets/OfficeMeeting2.jpg'; // Replace with your actual image path
+import statsImage from '../assets/OfficeMeeting.jpg'; // Replace with your actual image path
 // import { Linkedin, Facebook, Instagram } from 'lucide-react';
 // import { ImageIcon } from "lucide-react";
 
@@ -175,63 +175,42 @@ const Aboutus = () => {
       {/* Our Team */}
       
 
-<section className="bg-[#F0F7F4] py-16 px-4">
-  <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl p-8 md:p-16">
-    <h2 className="text-3xl md:text-4xl font-extrabold text-center text-[#2563EB] mb-14 relative">
+<section className="bg-[#F0F7F4] pt-10">
+  <div className="max-w-6xl mx-auto px-6 bg-white p-10 md:p-20 rounded-xl shadow-md">
+    <h2 className="text-3xl md:text-4xl text-center font-bold text-[#2563EB] mb-12">
       Meet Our Team
-      <span className="block w-16 h-1 bg-[#2563EB] mt-4 mx-auto rounded-full"></span>
     </h2>
-
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
       {[
-        {
-          name: "John Doe",
-          title: "Senior Architect",
-          img: "./male.jpg",
-          bio: "Passionate about creating innovative and sustainable designs.",
-          skills: ["Architecture", "Urban Design", "Sustainability"]
-        },
-        {
-          name: "Jane Smith",
-          title: "Managing Director",
-          img: "./female.jpg",
-          bio: "Leader with a vision for excellence and precision in every project.",
-          skills: ["Leadership", "Strategy", "Client Relations"]
-        },
-        {
-          name: "Robert Lee",
-          title: "Project Manager",
-          img: "./male2.jpg",
-          bio: "Ensuring every project is delivered on time and to perfection.",
-          skills: ["Planning", "Execution", "Coordination"]
-        }
+        { name: "John Doe", title: "Senior Architect", img: "./male.jpg" },
+        { name: "Jane Smith", title: "Managing Director", img: "./female.jpg" },
+        { name: "Robert Lee", title: "Project Manager", img: "./male2.jpg" }
       ].map((member, index) => (
-        <motion.div
+        <div
           key={index}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: index * 0.2 }}
-          viewport={{ once: true }}
-          className="bg-[#F9FAFB] p-8 rounded-3xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group"
+          className="bg-[#F0F7F4] p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
         >
-          <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden ring-4 ring-[#2563EB] shadow-lg transform group-hover:scale-105 transition duration-500">
-            <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
+          <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden ring-4 ring-[#2563EB] shadow">
+            <img
+              src={member.img}
+              alt={member.name}
+              className="w-full h-full object-cover"
+            />
           </div>
-
-          <h4 className="text-xl md:text-2xl font-bold text-center text-[#1F2937] mb-1">{member.name}</h4>
-          <p className="text-center text-[#4B5563] font-medium mb-3">{member.title}</p>
-          <p className="text-center text-sm italic text-gray-500 mb-4">
-            “{member.bio}”
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-2">
-            {member.skills.map((skill, i) => (
-              <span key={i} className="bg-blue-100 text-blue-700 px-3 py-1 text-xs rounded-full shadow-sm">
-                {skill}
-              </span>
-            ))}
+          <h4 className="text-xl font-bold text-center text-gray-800">{member.name}</h4>
+          <p className="text-center text-gray-600 mt-1">{member.title}</p>
+          <div className="flex justify-center gap-4 mt-4">
+            <a href="#" className="text-[#2563EB] hover:text-blue-800 transition">
+              <Linkedin size={22} />
+            </a>
+            <a href="#" className="text-[#E1306C] hover:text-pink-700 transition">
+              <Instagram size={22} />
+            </a>
+            <a href="#" className="text-[#1877F2] hover:text-blue-600 transition">
+              <Facebook size={22} />
+            </a>
           </div>
-        </motion.div>
+        </div>
       ))}
     </div>
   </div>

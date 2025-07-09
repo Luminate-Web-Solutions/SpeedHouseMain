@@ -8,10 +8,10 @@ const sequelize = require('./config/db');
 const Contact = require('./modules/contact');
 
 const app = express();
-const PORT = process.env.PORT || 3012;
+const PORT = 3035;
 
 app.use(cors({
-  origin: ['https://speed.luminatewebsol.com', ],
+  origin: '*',
   methods: ['POST', 'GET']
 }));
 
