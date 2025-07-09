@@ -41,7 +41,7 @@ app.use(cors({
 }));
 
 // Handle preflight requests
-app.options('*', cors());
+app.options('', cors());
 
 // Nodemailer Transporter
 const transporter = nodemailer.createTransport({
