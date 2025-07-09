@@ -1,34 +1,24 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-const path = require('path');
+require('dotenv').config();
 
 const sequelize = require('./config/db');
 const Contact = require('./modules/contact');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3012;
 
-// ✅ Allow All CORS + Headers
 app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: '*',
-  credentials: false
+  origin: ['https://speed.luminatewebsol.com', ],
+  methods: ['POST', 'GET']
 }));
 
-app.options('*', cors());
-
-// ✅ Body Parsing
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// ✅ Serve React Static Files
-// app.use(express.static(path.join(__dirname, 'dist')));
-
-// ✅ Nodemailer Setup
+// Nodemailer transporter
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT),
@@ -40,7 +30,7 @@ const transporter = nodemailer.createTransport({
   tls: { rejectUnauthorized: false }
 });
 
-// ✅ Contact API
+// Contact form handler
 app.post('/api/contact', async (req, res) => {
   const { name, email, phone, subject, message } = req.body;
 
@@ -81,6 +71,7 @@ app.post('/api/contact', async (req, res) => {
   };
 
   try {
+    // ✅ Save to database
     await Contact.create({
       name,
       email,
@@ -89,6 +80,7 @@ app.post('/api/contact', async (req, res) => {
       message
     });
 
+    // ✅ Send emails
     await transporter.sendMail(adminMailOptions);
     await transporter.sendMail(autoReplyOptions);
 
@@ -99,7 +91,7 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-// ✅ Test Email Route
+// Optional test route
 app.get('/test-email', async (req, res) => {
   try {
     await transporter.sendMail({
@@ -115,12 +107,7 @@ app.get('/test-email', async (req, res) => {
   }
 });
 
-// ✅ React Fallback Route (Fixed wildcard)
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
-// ✅ Database & Server Start
+// Start server after DB connection
 sequelize.authenticate()
   .then(() => {
     console.log('✅ Database connected');
@@ -135,5 +122,3 @@ sequelize.authenticate()
   .catch(err => {
     console.error('❌ Database connection failed:', err);
   });
-
-module.exports = app;
