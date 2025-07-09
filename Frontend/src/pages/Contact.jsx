@@ -19,13 +19,11 @@ const Contact = () => {
       email: form.current.email.value,
       subject: form.current.subject.value,
       message: form.current.message.value,
-      phone: "" // Optional: Add phone if you have phone input
+      phone: form.current.phone ? form.current.phone.value : ""
     };
 
     try {
-      const response = await axios.post('https://speed.luminatewebsol.com/api/contact', formData)
-
-
+      const response = await axios.post('/api/contact', formData);
       alert(response.data.message);
       form.current.reset();
     } catch (error) {
@@ -37,6 +35,7 @@ const Contact = () => {
   return (
     <>
       <Header />
+
       <section className="bg-gradient-to-br from-blue-100 via-white to-green-100 py-20 px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -67,8 +66,11 @@ const Contact = () => {
               <label htmlFor="email" className="font-semibold mb-1">Email</label>
               <input type="email" id="email" name="email" required className="border border-gray-300 p-3 mb-4 rounded" />
 
+              <label htmlFor="phone" className="font-semibold mb-1">Phone</label>
+              <input type="text" id="phone" name="phone" className="border border-gray-300 p-3 mb-4 rounded" />
+
               <label htmlFor="subject" className="font-semibold mb-1">Subject</label>
-              <textarea id="subject" name="subject" required rows="2" className="border border-gray-300 p-3 mb-4 rounded" />
+              <input type="text" id="subject" name="subject" required className="border border-gray-300 p-3 mb-4 rounded" />
 
               <label htmlFor="message" className="font-semibold mb-1">Message</label>
               <textarea id="message" name="message" required rows="5" className="border border-gray-300 p-3 mb-4 rounded" />
@@ -81,6 +83,7 @@ const Contact = () => {
 
           <div className="flex flex-col items-center text-center">
             <Lottie animationData={contactAnim} loop autoplay className="w-60 h-60 mx-auto mb-6" />
+
             <motion.h2 className="text-3xl font-bold text-blue-800 mb-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -88,6 +91,7 @@ const Contact = () => {
             >
               Get in Touch
             </motion.h2>
+
             <p className="text-gray-600 text-lg mb-8">
               Whether it’s a question or a project — we’d love to hear from you.
             </p>
