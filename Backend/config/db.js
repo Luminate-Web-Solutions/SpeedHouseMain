@@ -1,9 +1,9 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(
-  'speedhouse',       // ✅ Your actual database name
-  'root',             // ✅ Your MySQL username (XAMPP default)
-  '',                 // ✅ Password (blank if none)
+  'sql_speed_lumina',       // ✅ Your actual database name
+  'sql_speed_lumina',             // ✅ Your MySQL username (XAMPP default)
+  'd699678dbae29',                 // ✅ Password (blank if none)
   {
     host: 'localhost',
     port: 3306,        // ✅ Confirm this is correct in XAMPP
