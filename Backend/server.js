@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const sequelize = require('./config/db');
-const Contact = require('./modules/Contact');
+const Contact = require('./modules/contact');
 
 const app = express();
 const PORT = process.env.PORT || 3012;
