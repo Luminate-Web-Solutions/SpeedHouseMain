@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 import ProjectCard from '../Components/ProjectCard';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import pro from '../assets/ourproject.jpg';
@@ -460,35 +461,68 @@ return (
       </section>
 
       <div className="bg-[#F4F7FA] py-16 px-5">
-        {sections.map((section, index) => (
-          <section className="mb-20 text-left md:pl-10" key={index}>
-            <h3 className={`text-3xl font-semibold mb-6 ${section.color} pl-10 text-center`}>
-              {section.title}
-            </h3>
+        {sections.map((section, index) => {
+          const prevRef = useRef(null);
+          const nextRef = useRef(null);
 
-            <Swiper
-              modules={[Autoplay, Navigation]}
-              spaceBetween={30}
-              slidesPerView={1}
-              loop
-              navigation
-              autoplay={{ delay: 2000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-              breakpoints={{
-                640: { slidesPerView: 1 },
-                768: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 },
-              }}
-            >
-              {section.projects.map((proj, i) => (
-                <SwiperSlide key={i} className="flex justify-start">
-                  <div className="transform hover:scale-105 transition duration-300 cursor-pointer max-w-sm">
-                    <ProjectCard {...proj} onViewDetails={() => setSelectedProject(proj)} />
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </section>
-        ))}
+          return (
+            <section className="mb-20 text-left md:pl-10" key={index}>
+              <h3 className={`text-3xl font-semibold mb-6 ${section.color} text-center`}>
+                {section.title}
+              </h3>
+
+              <div className="relative group px-4">
+                {/* Desktop Navigation Buttons */}
+                <button
+                  ref={prevRef}
+                  className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 bg-white border rounded-full p-2 shadow hover:bg-blue-600 hover:text-white z-10"
+                >
+                  <ChevronLeft />
+                </button>
+
+                <button
+                  ref={nextRef}
+                  className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 bg-white border rounded-full p-2 shadow hover:bg-blue-600 hover:text-white z-10"
+                >
+                  <ChevronRight />
+                </button>
+
+                <Swiper
+                  modules={[Autoplay, Navigation]}
+                  spaceBetween={20}
+                  slidesPerView={1}
+                  loop
+                  autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                  }}
+                  breakpoints={{
+                    640: { slidesPerView: 1 },
+                    768: { slidesPerView: 2 },
+                    1024: { slidesPerView: 3 },
+                  }}
+                  navigation={{
+                    prevEl: prevRef.current,
+                    nextEl: nextRef.current,
+                  }}
+                  onBeforeInit={(swiper) => {
+                    swiper.params.navigation.prevEl = prevRef.current;
+                    swiper.params.navigation.nextEl = nextRef.current;
+                  }}
+                >
+                  {section.projects.map((proj, i) => (
+                    <SwiperSlide key={i}>
+                      <div className="transform hover:scale-105 transition duration-300 cursor-pointer max-w-sm mx-auto">
+                        <ProjectCard {...proj} onViewDetails={() => setSelectedProject(proj)} />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </section>
+          );
+        })}
       </div>
 
       {/* Modal Popup */}
@@ -496,13 +530,11 @@ return (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
           <div className="bg-white rounded-xl p-6 max-w-md w-full relative">
             <button
-  onClick={() => setSelectedProject(null)}
-  className="absolute top-3 right-4 bg-white text-black-600 border border-black-300 rounded-full p-2 shadow hover:bg-blue-600 hover:text-white hover:shadow-lg transition duration-300 ease-in-out"
-  aria-label="Close"
->
-  <span className="text-xl font-bold leading-none">&times;</span>
-</button>
-           
+              onClick={() => setSelectedProject(null)}
+              className="absolute top-3 right-4 bg-white border border-gray-300 rounded-full p-2 shadow hover:bg-blue-600 hover:text-white transition"
+            >
+              <span className="text-xl font-bold leading-none">&times;</span>
+            </button>
 
             <img
               src={selectedProject.image}

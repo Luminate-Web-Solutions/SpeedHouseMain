@@ -93,20 +93,39 @@ const Home = () => {
           ))}
         </div>
 
+        {/* Desktop Navigation Buttons */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-40 bg-white/60 hover:bg-white text-blue-900 rounded-full p-2 shadow-lg"
+          className="hidden md:flex items-center justify-center absolute left-6 top-1/2 -translate-y-1/2 z-50 bg-white/60 hover:bg-white text-blue-900 rounded-full p-3 shadow-lg transition"
         >
-          <ChevronLeft size={28} />
+          <ChevronLeft size={20} />
         </button>
+
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-40 bg-white/60 hover:bg-white text-blue-900 rounded-full p-2 shadow-lg"
+          className="hidden md:flex items-center justify-center absolute right-6 top-1/2 -translate-y-1/2 z-50 bg-white/60 hover:bg-white text-blue-900 rounded-full p-3 shadow-lg transition"
         >
-          <ChevronRight size={28} />
+          <ChevronRight size={20} />
         </button>
+
+        {/* Mobile Navigation Buttons */}
+        <div className="block md:hidden absolute bottom-5 left-0 right-0 flex items-center justify-between px-6 z-50">
+          <button
+            onClick={prevSlide}
+            className="bg-blue-900 text-white rounded-full p-3 shadow-lg active:scale-95 transition"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="bg-blue-900 text-white rounded-full p-3 shadow-lg active:scale-95 transition"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>
       </div>
 
+      {/* Speed House Intro Section */}
       <div className="bg-[#F4F7FA] flex items-center justify-center pt-10 px-4 md:px-10 w-full">
         <div className="bg-white flex flex-col md:flex-row gap-8 px-6 sm:px-10 py-8 rounded-xl w-full max-w-6xl shadow-md">
           <div className="md:w-1/2">
@@ -122,12 +141,13 @@ const Home = () => {
               Speed House Engineering Consultant
             </h2>
             <p className="text-sm sm:text-base md:text-lg text-gray-800 leading-relaxed text-justify">
-              Welcome to Speed House Engineering Consultant L.L.C., a leading architectural design firm proudly based in Dubai, UAE. Since our inception, we have been dedicated to shaping the future of the built environment by delivering innovative, sustainable, and client-focused design solutions. Our passion lies in crafting spaces that not only serve a purpose but also evoke inspiration, beauty, and a strong connection to their surroundings. We take pride in every project, ensuring attention to detail, cutting-edge design, and a deep understanding of our clients' aspirations. Our team of experts works tirelessly to bring visionary concepts to life, blending aesthetics with practicality to create truly remarkable spaces that stand the test of time.
+              Welcome to Speed House Engineering Consultant L.L.C., a leading architectural design firm proudly based in Dubai, UAE. Since our inception, we have been dedicated to shaping the future of the built environment by delivering innovative, sustainable, and client-focused design solutions. Our passion lies in crafting spaces that not only serve a purpose but also evoke inspiration, beauty, and a strong connection to their surroundings.
             </p>
           </div>
         </div>
       </div>
 
+      {/* Legacy Section */}
       <section className="bg-[#F4F7FA] py-16 px-6 md:px-10 w-full">
         <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-10">
           <div className="w-full md:w-1/2 text-gray-800">
@@ -138,8 +158,6 @@ const Home = () => {
             <div className="w-20 h-1 bg-blue-800 mb-6 rounded-full"></div>
             <p className="text-base md:text-lg leading-relaxed mb-4">
               For over two decades, Speed House Engineering Consultant has stood at the forefront of architectural excellence in Dubai. Since 2004, we've been crafting spaces that blend creativity, functionality, and sustainability.
-
-Our legacy is built on trust, precision, and a deep understanding of the evolving architectural landscape. We’re proud to deliver solutions that not only meet client expectations — but exceed them.
             </p>
           </div>
 
@@ -153,6 +171,7 @@ Our legacy is built on trust, precision, and a deep understanding of the evolvin
         </div>
       </section>
 
+      {/* Featured Projects Section */}
       <div className="bg-[#F4F7FA] py-16 px-6 md:px-10 w-full">
         <div className="max-w-6xl mx-auto text-center bg-white p-10 md:p-14 rounded-2xl shadow-2xl">
           <h2 className="text-3xl md:text-4xl font-extrabold text-blue-800 mb-12 relative inline-block">
@@ -161,11 +180,7 @@ Our legacy is built on trust, precision, and a deep understanding of the evolvin
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {[
-              { title: 'Al Quoz First', image: './FirstProject.jpg' },
-              { title: 'Oud Al Muteena Villa', image: './villa.jpg' },
-              { title: 'Dubai Investment Park', image: './Interior.jpg' },
-            ].map((project, i) => (
+            {[{ title: 'Al Quoz First', image: './FirstProject.jpg' }, { title: 'Oud Al Muteena Villa', image: './villa.jpg' }, { title: 'Dubai Investment Park', image: './Interior.jpg' }].map((project, i) => (
               <div
                 key={i}
                 className="bg-[#F9FAFB] rounded-xl overflow-hidden shadow-md hover:shadow-xl transition duration-300"
@@ -195,6 +210,7 @@ Our legacy is built on trust, precision, and a deep understanding of the evolvin
         </div>
       </div>
 
+      {/* Why Choose Us Section */}
       <section className="bg-[#F4F7FA] py-20 px-6 md:px-10">
         <div className="max-w-6xl mx-auto bg-white p-10 md:p-14 rounded-3xl shadow-2xl">
           <h2 className="text-3xl md:text-4xl font-extrabold text-center text-green-800 mb-4">
@@ -203,12 +219,7 @@ Our legacy is built on trust, precision, and a deep understanding of the evolvin
           <div className="w-20 h-1 bg-green-600 mx-auto mb-12 rounded-full"></div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { icon: <Trophy size={40} />, title: 'Proven Track Record', desc: 'Trusted by hundreds of clients across the UAE...' },
-              { icon: <Sprout size={40} />, title: 'Sustainable Designs', desc: 'We prioritize eco-friendly, efficient, and future-ready solutions...' },
-              { icon: <ChartNoAxesCombined size={40} />, title: 'Expert Team', desc: 'A dedicated team of architects, designers, and engineers...' },
-              { icon: <Clock size={40} />, title: 'Timely Delivery', desc: 'Meticulous planning and execution ensure on-time delivery...' },
-            ].map((item, i) => (
+            {[{ icon: <Trophy size={40} />, title: 'Proven Track Record', desc: 'Trusted by hundreds of clients across the UAE...' }, { icon: <Sprout size={40} />, title: 'Sustainable Designs', desc: 'We prioritize eco-friendly, efficient, and future-ready solutions...' }, { icon: <ChartNoAxesCombined size={40} />, title: 'Expert Team', desc: 'A dedicated team of architects, designers, and engineers...' }, { icon: <Clock size={40} />, title: 'Timely Delivery', desc: 'Meticulous planning and execution ensure on-time delivery...' }].map((item, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -228,6 +239,7 @@ Our legacy is built on trust, precision, and a deep understanding of the evolvin
         </div>
       </section>
 
+      {/* Autoscroll Section */}
       <section className="pb-10 bg-[#F4F7FA]">
         <div className="max-w-6xl mx-auto px-6 bg-[#FFFFFF] p-10 rounded-xl shadow-xl overflow-x-auto">
           <Autoscroll />
