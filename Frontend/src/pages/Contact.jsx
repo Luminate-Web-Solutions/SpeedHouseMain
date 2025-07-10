@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import Lottie from "lottie-react";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 import Footer from "../Components/Footer";
@@ -9,37 +9,42 @@ import Header from "../Components/Header";
 import contactAnim from "../assets/Animation - 1751603024220.json";
 import getintouch from "../assets/Animation - 1751601835143.json";
 
-
 const Contact = () => {
   const form = useRef();
+  const [loading, setLoading] = useState(false);
+  const [popup, setPopup] = useState({ show: false, type: '', message: '' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const formData = {
       name: form.current.name.value,
       email: form.current.email.value,
       subject: form.current.subject.value,
       message: form.current.message.value,
-      phone: "" // Optional: Add phone if you have phone input
+      phone: ""
     };
 
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3035';
-      const response = await axios.post(`${apiUrl}/api/contact`, formData)
+      const response = await axios.post(`${apiUrl}/api/contact`, formData);
 
-
-      alert(response.data.message);
+      setPopup({ show: true, type: 'success', message: response.data.message || "Message sent successfully!" });
       form.current.reset();
     } catch (error) {
       console.error("Error sending email:", error);
-      alert("Failed to send message. Please try again.");
+      setPopup({ show: true, type: 'error', message: "Failed to send message. Please try again." });
+    } finally {
+      setLoading(false);
     }
   };
 
+  const closePopup = () => setPopup({ show: false, type: '', message: '' });
+
   return (
     <>
-    <Header />
+      <Header />
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-100 via-white to-green-100 py-24 px-6 text-center">
@@ -59,9 +64,9 @@ const Contact = () => {
       </section>
 
       {/* Contact Section */}
-      <section className="bg-[#F4F7FA] py-20 px-6 md:px-16">
+      <section className="bg-[#F4F7FA] py-20 px-6 md:px-16 relative">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-7xl mx-auto items-center">
-          
+
           {/* Form Card */}
           <motion.form
             ref={form}
@@ -71,8 +76,6 @@ const Contact = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="bg-white p-10 rounded-3xl shadow-2xl w-full border border-blue-100"
           >
-            {/* <h2 className="text-2xl font-bold text-blue-800 mb-6"><Lottie animationData={getintouch} loop autoplay className="w-100 mx-auto mb-6" /> */}
-{/* </h2> */}
             <div className="flex flex-col gap-4">
               <div>
                 <label htmlFor="name" className="font-semibold mb-1 text-gray-700">Name</label>
@@ -90,8 +93,9 @@ const Contact = () => {
                 <label htmlFor="message" className="font-semibold mb-1 text-gray-700">Message</label>
                 <textarea id="message" name="message" rows="5" required className="border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 w-full" />
               </div>
-              <button type="submit" className="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition duration-200">
-                Submit
+              <button type="submit" disabled={loading} className="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition duration-200 flex items-center justify-center gap-2">
+                {loading && <Loader2 className="animate-spin" size={20} />}
+                {loading ? 'Sending...' : 'Submit'}
               </button>
             </div>
           </motion.form>
@@ -112,7 +116,7 @@ const Contact = () => {
 
             <div className="bg-white/70 backdrop-blur-md rounded-2xl shadow-lg p-8 w-full border border-blue-100">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-                
+
                 <div className="flex flex-col items-center group">
                   <MapPin className="text-blue-700 mb-2 group-hover:scale-110 transition" size={32} />
                   <h4 className="text-lg font-semibold text-blue-900 mb-1">Address</h4>
@@ -136,6 +140,25 @@ const Contact = () => {
           </motion.div>
 
         </div>
+
+        {/* Popup Modal */}
+        {popup.show && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm mx-auto">
+              {popup.type === 'success' ? (
+                <CheckCircle size={50} className="text-green-500 mx-auto mb-4" />
+              ) : (
+                <XCircle size={50} className="text-red-500 mx-auto mb-4" />
+              )}
+              <h3 className="text-xl font-bold mb-2">{popup.type === 'success' ? 'Success!' : 'Error'}</h3>
+              <p className="text-gray-600 mb-6">{popup.message}</p>
+              <button onClick={closePopup} className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+
       </section>
 
       <Footer />
