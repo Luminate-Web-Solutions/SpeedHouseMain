@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Trophy, Clock, ChartLine, Leaf, Sprout, BarChart3 as ChartNoAxesCombined } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Trophy, Clock, Sprout, BarChart3 as ChartNoAxesCombined } from 'lucide-react';
 import Autoscroll from '../Components/Autoscroll';
 
 import bg1 from '../assets/bg.jpg';
@@ -114,6 +114,7 @@ const Home = () => {
             <img
               src="./Since.jpg"
               alt="Speed House Overview"
+              loading="lazy"
               className="w-full h-full object-cover rounded-lg shadow"
             />
           </div>
@@ -129,11 +130,8 @@ const Home = () => {
         </div>
       </div>
 
-
-      {/* Legacy Section */}
       <section className="bg-[#F4F7FA] py-16 px-6 md:px-10 w-full">
         <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-10">
-          {/* Left Text Content */}
           <div className="w-full md:w-1/2 text-gray-800">
             <h2 className="text-3xl md:text-4xl font-extrabold text-blue-900 mb-4 leading-tight">
               <span className="block">Since 2004</span>
@@ -141,72 +139,66 @@ const Home = () => {
             </h2>
             <div className="w-20 h-1 bg-blue-800 mb-6 rounded-full"></div>
             <p className="text-base md:text-lg leading-relaxed mb-4">
-              For over two decades, Speed House Engineering Consultant has stood at the forefront of architectural excellence in Dubai.
-              Since 2004, we've been crafting spaces that blend creativity, functionality, and sustainability.
-            </p>
-            <p className="text-base md:text-lg leading-relaxed text-gray-700">
-              Our legacy is built on trust, precision, and a deep understanding of the evolving architectural landscape.
-              We’re proud to deliver solutions that not only meet client expectations — but exceed them.
+              For over two decades, Speed House Engineering Consultant has stood at the forefront of architectural excellence in Dubai. Since 2004, we've been crafting spaces that blend creativity, functionality, and sustainability.
+
+Our legacy is built on trust, precision, and a deep understanding of the evolving architectural landscape. We’re proud to deliver solutions that not only meet client expectations — but exceed them.
             </p>
           </div>
 
-          {/* Right Image */}
           <div className="w-full md:w-1/2">
             <img
               src="./DesSection.jpg"
               alt="Legacy since 2004"
+              loading="lazy"
               className="rounded-2xl shadow-lg w-full h-full object-cover transform transition duration-300 hover:scale-105"
             />
           </div>
         </div>
       </section>
 
-      {/* Featured Projects Section */}
-     <div className="bg-[#F4F7FA] py-16 px-6 md:px-10 w-full">
-  <div className="max-w-6xl mx-auto text-center bg-white p-10 md:p-14 rounded-2xl shadow-2xl">
-    <h2 className="text-3xl md:text-4xl font-extrabold text-blue-800 mb-12 relative inline-block">
-      Featured Projects
-      <span className="block w-16 h-1 bg-blue-500 mt-2 mx-auto rounded-full"></span>
-    </h2>
+      <div className="bg-[#F4F7FA] py-16 px-6 md:px-10 w-full">
+        <div className="max-w-6xl mx-auto text-center bg-white p-10 md:p-14 rounded-2xl shadow-2xl">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-blue-800 mb-12 relative inline-block">
+            Featured Projects
+            <span className="block w-16 h-1 bg-blue-500 mt-2 mx-auto rounded-full"></span>
+          </h2>
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-      {[
-        { title: 'Al Quoz First', image: './FirstProject.jpg' },
-        { title: 'Oud Al Muteena Villa', image: './villa.jpg' },
-        { title: 'Dubai Investment Park', image: './Interior.jpg' },
-      ].map((project, i) => (
-        <div
-          key={i}
-          className="bg-[#F9FAFB] rounded-xl overflow-hidden shadow-md hover:shadow-xl transition duration-300"
-        >
-          <div className="overflow-hidden">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-56 object-cover transform hover:scale-105 transition duration-500"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              { title: 'Al Quoz First', image: './FirstProject.jpg' },
+              { title: 'Oud Al Muteena Villa', image: './villa.jpg' },
+              { title: 'Dubai Investment Park', image: './Interior.jpg' },
+            ].map((project, i) => (
+              <div
+                key={i}
+                className="bg-[#F9FAFB] rounded-xl overflow-hidden shadow-md hover:shadow-xl transition duration-300"
+              >
+                <div className="overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    loading="lazy"
+                    className="w-full h-56 object-cover transform hover:scale-105 transition duration-500"
+                  />
+                </div>
+                <div className="p-5">
+                  <h3 className="text-lg font-semibold text-gray-800">{project.title}</h3>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="p-5">
-            <h3 className="text-lg font-semibold text-gray-800">{project.title}</h3>
-          </div>
-        </div>
-      ))}
-    </div>
 
-    {/* View All Projects Button */}
-    <div className="mt-12">
-      <Link
+          <div className="mt-12">
+            <Link
               to="/Ourproject"
               className="inline-block bg-blue-800 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-blue-900 transition duration-300"
             >
               View All Projects
             </Link>
-    </div>
-  </div>
-</div>
+          </div>
+        </div>
+      </div>
 
-
-      {/* Why Choose Us Section */}
       <section className="bg-[#F4F7FA] py-20 px-6 md:px-10">
         <div className="max-w-6xl mx-auto bg-white p-10 md:p-14 rounded-3xl shadow-2xl">
           <h2 className="text-3xl md:text-4xl font-extrabold text-center text-green-800 mb-4">
@@ -216,26 +208,10 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
-              {
-                icon: <Trophy size={40} />,
-                title: "Proven Track Record",
-                desc: "Trusted by hundreds of clients across the UAE for delivering high-quality architecture and design solutions.",
-              },
-              {
-                icon: <Sprout size={40} />,
-                title: "Sustainable Designs",
-                desc: "We prioritize eco-friendly, efficient, and future-ready solutions for every project.",
-              },
-              {
-                icon: <ChartNoAxesCombined size={40} />,
-                title: "Expert Team",
-                desc: "A dedicated team of architects, designers, and engineers with years of experience and passion.",
-              },
-              {
-                icon: <Clock size={40} />,
-                title: "Timely Delivery",
-                desc: "Meticulous planning and execution ensure your project is delivered on time — every time.",
-              },
+              { icon: <Trophy size={40} />, title: 'Proven Track Record', desc: 'Trusted by hundreds of clients across the UAE...' },
+              { icon: <Sprout size={40} />, title: 'Sustainable Designs', desc: 'We prioritize eco-friendly, efficient, and future-ready solutions...' },
+              { icon: <ChartNoAxesCombined size={40} />, title: 'Expert Team', desc: 'A dedicated team of architects, designers, and engineers...' },
+              { icon: <Clock size={40} />, title: 'Timely Delivery', desc: 'Meticulous planning and execution ensure on-time delivery...' },
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -243,9 +219,7 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.2 }}
                 viewport={{ once: true }}
-                className={`p-6 rounded-2xl shadow-md hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 ${
-                  i % 2 === 0 ? "bg-[#E6F4EA]" : "bg-[#F0FDF4]"
-                }`}
+                className={`p-6 rounded-2xl shadow-md hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 ${i % 2 === 0 ? 'bg-[#E6F4EA]' : 'bg-[#F0FDF4]'}`}
               >
                 <div className="flex flex-col items-center text-center gap-4">
                   <span className="text-green-700">{item.icon}</span>
@@ -258,12 +232,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Autoscroll Section */}
       <section className="pb-10 bg-[#F4F7FA]">
-        <div
-          className="max-w-6xl mx-auto px-6 bg-[#FFFFFF] p-10 rounded-xl shadow-xl overflow-x-auto"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
+        <div className="max-w-6xl mx-auto px-6 bg-[#FFFFFF] p-10 rounded-xl shadow-xl overflow-x-auto">
           <Autoscroll />
         </div>
       </section>

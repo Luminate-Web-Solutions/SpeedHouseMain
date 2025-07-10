@@ -43,22 +43,25 @@ const Footer = () => {
           <h3 className="text-xl font-semibold mb-4 text-blue-900">Follow Us</h3>
           <div className="flex md:justify-end gap-4">
             <a
-              href="#"
+              href="https://www.linkedin.com/company/speedhouseeng"
               className="p-2 shadow hover:shadow-lg transition"
+              target='_blank'
               aria-label="LinkedIn"
             >
               <Linkedin className="text-[#0077B5] hover:text-[#005582]" size={24} />
             </a>
             <a
-              href="#"
+              href="https://www.facebook.com/share/16XWPEFWtp/"
               className="p-2 shadow hover:shadow-lg transition"
+              target='_blank'
               aria-label="Facebook"
             >
               <Facebook className="text-[#1877F2] hover:text-[#0d5dc0]" size={24} />
             </a>
             <a
-              href="#"
+              href="https://www.instagram.com/speedhouseeng/"
               className="p-2  shadow hover:shadow-lg transition"
+              target='_blank'
               aria-label="Instagram"
             >
               <Instagram className="text-[#E1306C] hover:text-[#b02557]" size={24} />
