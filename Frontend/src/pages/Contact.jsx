@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import contactAnim from "../assets/Animation - 1751603024220.json";
+import getintouch from "../assets/Animation - 1751601835143.json";
+
 
 const Contact = () => {
   const form = useRef();
@@ -69,7 +71,8 @@ const Contact = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="bg-white p-10 rounded-3xl shadow-2xl w-full border border-blue-100"
           >
-            <h2 className="text-2xl font-bold text-blue-800 mb-6"></h2>
+            {/* <h2 className="text-2xl font-bold text-blue-800 mb-6"><Lottie animationData={getintouch} loop autoplay className="w-100 mx-auto mb-6" /> */}
+{/* </h2> */}
             <div className="flex flex-col gap-4">
               <div>
                 <label htmlFor="name" className="font-semibold mb-1 text-gray-700">Name</label>
@@ -100,7 +103,7 @@ const Contact = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="flex flex-col items-center text-center"
           >
-            <Lottie animationData={contactAnim} loop autoplay className="w-64 h-64 mx-auto mb-6" />
+            <Lottie animationData={contactAnim} loop autoplay className="w-100 h-78 mx-auto mb-6" />
 
             <h2 className="text-3xl font-bold text-blue-800 mb-3">Get in Touch</h2>
             <p className="text-gray-600 text-lg mb-8 max-w-md">

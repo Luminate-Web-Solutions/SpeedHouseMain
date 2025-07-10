@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { LayoutGrid, Lightbulb, Handshake } from 'lucide-react';
 
 import bg from '../assets/bg.avif';
-import what from '../assets/offer.png';
+import what from '../assets/offer.jpg';
 import service1 from '../assets/img1.jpg';
 import service2 from '../assets/Interior.jpg';
 import service3 from '../assets/3.jpg';
@@ -22,37 +22,39 @@ const Service = () => {
   const [showModal, setShowModal] = useState(false);
 
   const services = [
-    {
-      title: 'Architectural Design',
-      img: service1,
-      desc: 'Our Architectural Design services blend innovation, functionality, and aesthetics to create timeless spaces that inspire and endure.'
-    },
-    {
-      title: 'Interior Design',
-      img: service2,
-      desc: 'Our Interior Design services transform spaces into reflections of personality and refined taste, balancing aesthetics with comfort.'
-    },
-    {
-      title: 'Landscape Architecture',
-      img: service3,
-      desc: 'We create harmonious outdoor environments that enhance beauty, promote sustainability, and elevate the user experience.'
-    },
-    {
-      title: 'Commercial Projects',
-      img: service4,
-      desc: 'We deliver Commercial Projects that combine strategic planning, innovative design, and engineering precision.'
-    },
-    {
-      title: 'Villa Design',
-      img: service5,
-      desc: 'Our Villa Design services offer bespoke luxury and timeless architectural elegance tailored to your lifestyle.'
-    },
-    {
-      title: 'Sustainable Solutions',
-      img: service6,
-      desc: 'We provide Sustainable Solutions that minimize ecological impact while maximizing long-term value for clients and communities.'
-    },
-  ];
+  {
+    title: 'Architectural Design',
+    img: service1,
+    desc: 'Our Architectural Design services blend innovation, functionality, and aesthetics to create timeless spaces that inspire and endure. From concept to completion, we ensure each design reflects the client’s vision while meeting the highest standards of sustainability and usability. Our experienced team works meticulously to bring creative ideas to life, delivering solutions that stand the test of time.'
+  },
+  {
+    title: 'Interior Design',
+    img: service2,
+    desc: 'Our Interior Design services transform spaces into reflections of personality and refined taste, balancing aesthetics with comfort. We carefully curate every element, from color palettes to furniture selection, creating environments that are both beautiful and functional. Whether residential or commercial, our designs embody elegance, comfort, and practicality.'
+  },
+  {
+    title: 'Landscape Architecture',
+    img: service3,
+    desc: 'We create harmonious outdoor environments that enhance beauty, promote sustainability, and elevate the user experience. Our Landscape Architecture solutions seamlessly integrate natural elements with innovative design concepts, resulting in inviting, functional, and eco-friendly spaces. We focus on biodiversity, user engagement, and long-term environmental impact.'
+  },
+  {
+    title: 'Commercial Projects',
+    img: service4,
+    desc: 'We deliver Commercial Projects that combine strategic planning, innovative design, and engineering precision. From retail spaces to office buildings, our team ensures every project aligns with brand identity and operational needs. We prioritize functionality, sustainability, and visual appeal to create impactful commercial environments.'
+  },
+  {
+    title: 'Villa Design',
+    img: service5,
+    desc: 'Our Villa Design services offer bespoke luxury and timeless architectural elegance tailored to your lifestyle. We specialize in crafting unique residential masterpieces that blend sophistication, comfort, and innovation. Every villa is designed with careful attention to detail, ensuring it reflects the individuality and aspirations of its owner.'
+  },
+  {
+    title: 'Sustainable Solutions',
+    img: service6,
+    desc: 'We provide Sustainable Solutions that minimize ecological impact while maximizing long-term value for clients and communities. Our approach emphasizes energy efficiency, resource conservation, and innovative green technologies. We aim to create spaces that contribute positively to both the environment and the quality of life.'
+  },
+];
+
+
 
   const projectExpertise = [
     { title: 'Architecture', img: architectureImg, desc: 'Blending artistry, technology, and unrivaled service for iconic structures.' },
