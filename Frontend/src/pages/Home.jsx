@@ -52,7 +52,6 @@ const Home = () => {
     } else {
       clearInterval(slideTimeout.current);
     }
-
     return () => clearInterval(slideTimeout.current);
   }, [isPaused, currentIndex]);
 
@@ -114,7 +113,6 @@ const Home = () => {
             <img
               src="./Since.jpg"
               alt="Speed House Overview"
-              loading="lazy"
               className="w-full h-full object-cover rounded-lg shadow"
             />
           </div>
@@ -149,7 +147,6 @@ Our legacy is built on trust, precision, and a deep understanding of the evolvin
             <img
               src="./DesSection.jpg"
               alt="Legacy since 2004"
-              loading="lazy"
               className="rounded-2xl shadow-lg w-full h-full object-cover transform transition duration-300 hover:scale-105"
             />
           </div>
@@ -177,7 +174,6 @@ Our legacy is built on trust, precision, and a deep understanding of the evolvin
                   <img
                     src={project.image}
                     alt={project.title}
-                    loading="lazy"
                     className="w-full h-56 object-cover transform hover:scale-105 transition duration-500"
                   />
                 </div>
