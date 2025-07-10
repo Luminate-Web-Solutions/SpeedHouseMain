@@ -23,7 +23,8 @@ const Contact = () => {
     };
 
     try {
-      const response = await axios.post('https://speed.luminatewebsol.com/api/contact', formData)
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3035';
+      const response = await axios.post(`${apiUrl}/api/contact`, formData)
 
 
       alert(response.data.message);
