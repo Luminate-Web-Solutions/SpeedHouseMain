@@ -11,7 +11,7 @@ const app = express();
 const PORT = 3035;
 
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:5173', 'https://speed.luminatewebsol.com'];
+  const allowedOrigins = ['http://localhost:5173', 'https://api.speedhousedesign.com' ,'https://speedhousedesign.com'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
